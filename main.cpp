@@ -46,5 +46,9 @@ int main(int argc, char* argv[]){
     int i = 1;
 
     //Parse command-line args for -h and -p
-    
+    while(i < argc){
+        std::string arg = argv[i];
+        
+    }
+    return 0;
 }
