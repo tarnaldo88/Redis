@@ -24,5 +24,16 @@ Things to implement:
     Read server responses and parses RESP types
     +OK, -Error, :100, $5\r\nhello -> Bulk string 
     *2\r\n$3\r\nfoo\r\n$3\r\nbar -> Array response
+    
+6. Implement Interactive REPL (CLI)
+    Run loop: UserInput, valis redis commands, send commands to the server, display parsed response
+    Support: help, quit
+
+7. main.cpp: parse command-line args, instantiate CLI and launch in REPL mode.
+
+Socket Programming
+Protocol Handling
+OOP principles
+CLI development
 
 */
