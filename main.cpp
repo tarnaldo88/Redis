@@ -37,3 +37,14 @@ OOP principles
 CLI development
 
 */
+
+#include <iostream>
+
+int main(int argc, char* argv[]){
+    std::string host = "127.0.0.1";
+    int port = 6379;
+    int i = 1;
+
+    //Parse command-line args for -h and -p
+    
+}
