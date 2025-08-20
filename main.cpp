@@ -39,6 +39,7 @@ CLI development
 */
 
 #include <iostream>
+#include <string>
 
 int main(int argc, char* argv[]){
     std::string host = "127.0.0.1";
@@ -48,7 +49,16 @@ int main(int argc, char* argv[]){
     //Parse command-line args for -h and -p
     while(i < argc){
         std::string arg = argv[i];
-        
+
+        // if h is arg, Ill check if there is existing num after h, -h 127.0.0.1
+        if(arg == "-h" && i + 1 < argc){
+            host = argv[++i];
+        } else if (arg == "-p" && i + 1 < argc){
+            port = std::stoi(argv[++i]);
+        } else {
+            break;
+        }
+        i++;;
     }
     return 0;
 }
