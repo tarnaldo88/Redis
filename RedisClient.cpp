@@ -52,7 +52,7 @@ bool RedisClient::connectToServer() {
     for (auto p = res; p != nullptr; p = p->ai_next){
         sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
 
-        if(sockfd == -1)
+        if(sockfd == INVALID_SOCK)
             continue;
 
         if(connect(sockfd, p->ai_addr, p->ai_addrlen) == 0){
@@ -60,15 +60,15 @@ bool RedisClient::connectToServer() {
         }
 
         CLOSESOCK(sockfd);
-        sockfd = -1;
+        sockfd = INVALID_SOCK;
     }
     freeaddrinfo(res);
 
-    if(sockfd = -1){
+    if(sockfd == INVALID_SOCK){
         std::cerr << "Could not connect to: " << host << ":" << port << "\n";
         return false;
     }
-    
+
     #ifdef _WIN32
     WSACleanup();
     #endif
@@ -77,8 +77,8 @@ bool RedisClient::connectToServer() {
 }
 
 void RedisClient::disconnect(){
-    if(sockfd != -1){
+    if(sockfd != INVALID_SOCK){
         CLOSESOCK(sockfd);
-        sockfd = -1;
+        sockfd = INVALID_SOCK;
     }
 }

@@ -31,6 +31,11 @@ class RedisClient {
     std::string host;
     int port;
     int sockfd;    
+     #ifdef _WIN32
+        int INVALID_SOCK = INVALID_SOCKET;
+    #else
+        int INVALID_SOCK = -1;
+     #endif
 };
 
 #endif
