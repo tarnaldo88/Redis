@@ -50,17 +50,39 @@ bool RedisClient::connectToServer() {
     }
 
     for (auto p = res; p != nullptr; p = p->ai_next){
-        sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+        // sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
 
-        if(sockfd == INVALID_SOCK)
-            continue;
+        // if(sockfd == INVALID_SOCK)
+        //     continue;
 
-        if(connect(sockfd, p->ai_addr, p->ai_addrlen) == 0){
-            break;
+        // if(connect(sockfd, p->ai_addr, p->ai_addrlen) == 0){
+        //     break;
+        // }
+
+        // CLOSESOCK(sockfd);
+        // sockfd = INVALID_SOCK;
+
+        #ifdef _WIN32
+        int rc = connect(sockfd, p->ai_addr, static_cast<int>(p->ai_addrlen));
+        
+        if (rc == SOCKET_ERROR) {
+            int werr = WSAGetLastError();
+            std::cerr << "connect() failed: WSAError=" << werr << "\n";
+            CLOSESOCK(sockfd);
+            sockfd = INVALID_SOCK;
+            continue; // try next addrinfo
         }
+        #else
+        if (connect(sockfd, p->ai_addr, p->ai_addrlen) == INVALID_SOCK) {
+            std::perror("connect");
+            CLOSESOCK(sockfd);
+            sockfd = INVALID_SOCK;
+            continue; // try next addrinfo
+        }
+        #endif
 
-        CLOSESOCK(sockfd);
-        sockfd = INVALID_SOCK;
+        // Success
+        break;
     }
     freeaddrinfo(res);
 
