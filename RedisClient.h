@@ -1,8 +1,20 @@
 #ifndef REDIS_CLIENT_H
 #define REDIS_CLIENT_H
 
+#ifdef _WIN32
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+    #pragma comment(lib, "Ws2_32.lib")
+#else
+    #include <netdb.h>
+    #include <sys/socket.h>
+    #include <unistd.h>
+#endif
 #include <string>
 #include <iostream>
+#include <cstring>
+
+
 
 class RedisClient {
     public:
@@ -11,6 +23,7 @@ class RedisClient {
 
     bool connectToServer();
     void disconnect();
+
 
     private:
     std::string host;
