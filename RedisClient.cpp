@@ -53,4 +53,17 @@ bool RedisClient::connectToServer() {
         sockfd = -1;
     }
     freeaddrinfo(res);
+
+    if(sockfd = -1){
+        std::cerr << "Could not connect to: " << host << ":" << port << "\n";
+        return false;
+    }
+    return true;
+}
+
+void RedisClient::disconnect(){
+    if(sockfd != -1){
+        CLOSESOCK(sockfd);
+        sockfd = -1;
+    }
 }
