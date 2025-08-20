@@ -24,7 +24,11 @@ RedisClient::~RedisClient(){
 bool RedisClient::connectToServer() {
     struct addrinfo hints, *res = nullptr;
     std::memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
+
+    //Ipv4 IPv6
+    hints.ai_family = AF_UNSPEC; 
+
+    //TCP
     hints.ai_socktype = SOCK_STREAM;
 
     std::string portStr = std::to_string(port);
@@ -34,4 +38,19 @@ bool RedisClient::connectToServer() {
         std::cerr << "getaddrinfo: " << gai_strerror(err) << "\n";
         return false;
     }
+
+    for (auto p = res; p != nullptr; p = p->ai_next){
+        sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+
+        if(sockfd == -1)
+            continue;
+
+        if(connect(sockfd, p->ai_addr, p->ai_addrlen) == 0){
+            break;
+        }
+
+        CLOSESOCK(sockfd);
+        sockfd = -1;
+    }
+    freeaddrinfo(res);
 }

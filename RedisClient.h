@@ -5,10 +5,12 @@
     #include <winsock2.h>
     #include <ws2tcpip.h>
     #pragma comment(lib, "Ws2_32.lib")
+    #define CLOSESOCK closesocket
 #else
     #include <netdb.h>
     #include <sys/socket.h>
     #include <unistd.h>
+    #define CLOSESOCK close
 #endif
 #include <string>
 #include <iostream>
