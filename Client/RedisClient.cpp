@@ -23,13 +23,15 @@ RedisClient::~RedisClient(){
 
 bool RedisClient::connectToServer() {
     #ifdef _WIN32
-    WSADATA wsaData;
-    int err = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if(err != 0){
-        std::cerr << "WSAStartup failed: " << err << "\n";
-        return false;
-    }    
+        WSADATA wsaData;
+        int err = WSAStartup(MAKEWORD(2, 2), &wsaData);
+        
+        if(err != 0){
+            std::cerr << "WSAStartup failed: " << err << "\n";
+            return false;
+        }    
     #endif
+
     struct addrinfo hints, *res = nullptr;
 
     //clearing the hints struct
@@ -77,6 +79,7 @@ bool RedisClient::connectToServer() {
         // Success
         break;
     }
+    
     freeaddrinfo(res);
 
     if(sockfd == INVALID_SOCK){
@@ -85,7 +88,7 @@ bool RedisClient::connectToServer() {
     }
 
     #ifdef _WIN32
-    WSACleanup();
+        WSACleanup();
     #endif
 
     return true;
