@@ -68,7 +68,11 @@ bool RedisClient::connectToServer() {
         std::cerr << "Could not connect to: " << host << ":" << port << "\n";
         return false;
     }
+    
+    #ifdef _WIN32
     WSACleanup();
+    #endif
+
     return true;
 }
 
