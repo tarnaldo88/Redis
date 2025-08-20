@@ -88,3 +88,7 @@ void RedisClient::disconnect(){
         sockfd = INVALID_SOCK;
     }
 }
+
+int RedisClient::getSocketFd() const {
+    return sockfd;
+}

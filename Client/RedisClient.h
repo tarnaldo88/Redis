@@ -34,6 +34,7 @@ class RedisClient {
 
     bool connectToServer();
     void disconnect();
+    int getSocketFd() const;
 
 
     private:
