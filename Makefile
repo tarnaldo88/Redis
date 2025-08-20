@@ -1,18 +1,28 @@
 # Compiler
 CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17
+CPPFLAGS = -I. -IClient
+
+# Platform detection (Windows via MSYS2/MinGW vs Linux)
+ifeq ($(OS),Windows_NT)
+  EXE_EXT := .exe
+  PLATFORM_LIBS := -lws2_32
+else
+  EXE_EXT :=
+  PLATFORM_LIBS :=
+endif
 
 # Directories
 SRC_DIR = Client
 BUILD_DIR = build
 BIN_DIR = bin
 
-# Find all .cpp files in the Client directory
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
+# Find all .cpp files in project (exclude root CLI.cpp to avoid duplicate with Client/CLI.cpp)
+SRCS := $(filter-out CLI.cpp,$(wildcard *.cpp)) $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 
 # Output binary
-TARGET = $(BIN_DIR)/my_redis_cli
+TARGET = $(BIN_DIR)/my_redis_cli$(EXE_EXT)
 
 # Default rule
 all: $(TARGET)
@@ -21,13 +31,14 @@ all: $(TARGET)
 $(BUILD_DIR) $(BIN_DIR):
 	mkdir -p $@
 
-# Compile each .cpp file into .o files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# Compile each .cpp file into .o files (mirror subdirectories under build/)
+$(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
 # Link the object files to create the executable
 $(TARGET): $(OBJS) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET) $(PLATFORM_LIBS)
 
 # Clean build artifacts
 clean:
