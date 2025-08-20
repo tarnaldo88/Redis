@@ -23,7 +23,7 @@ void CLI::run() {
     int port = 6379;
     
     while(true) {
-        std::cout << host <<  ":" << port << ">";
+        std::cout << host <<  ":" << port << "> ";
         std::cout.flush();
         std::string line;
 
@@ -36,5 +36,14 @@ void CLI::run() {
             std::cout << "Exiting. \n";
             break;
         }
+
+        if(line == "help"){
+            std::cout<< "Displaying Help \n";
+            continue;
+        }
+
+        //split commands into tokens
+        
+
     }
 }
