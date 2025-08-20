@@ -1,5 +1,6 @@
 #ifndef CLI_H
 #define CLI_H
+#include "RedisClient.h"
 
 #include <string>
 //...
@@ -10,6 +11,7 @@ class CLI {
         void run();
 
     private:
+    RedisClient redisClient;
 };
 
 
