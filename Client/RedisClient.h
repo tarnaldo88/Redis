@@ -16,6 +16,15 @@
 #include <iostream>
 #include <cstring>
 
+// Portable socket type and invalid value
+#ifdef _WIN32
+using socket_t = SOCKET;
+static const socket_t INVALID_SOCK = INVALID_SOCKET;
+#else
+using socket_t = int;
+static const socket_t INVALID_SOCK = -1;
+#endif
+
 
 
 class RedisClient {
@@ -30,12 +39,7 @@ class RedisClient {
     private:
     std::string host;
     int port;
-    int sockfd;    
-     #ifdef _WIN32
-        int INVALID_SOCK = INVALID_SOCKET;
-    #else
-        int INVALID_SOCK = -1;
-     #endif
+    socket_t sockfd;    
 };
 
 #endif

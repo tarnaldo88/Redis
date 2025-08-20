@@ -10,7 +10,8 @@ void CLI::run() {
         return;
     }
 
-    std::cout << "Connected to Redis server" << redisClient.host << ":" << redisClient.port << "\n";
+    std::cout << "Connected to Redis server" << "\n";
+    // << redisClient.host << ":" << redisClient.port << "\n";
     // std::string host = "127.0.0.1";
     // int port = 6379;
     

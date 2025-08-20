@@ -41,8 +41,19 @@ CLI development
 #include <iostream>
 #include <string>
 #include "CLI.h"
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
 
 int main(int argc, char* argv[]){
+#ifdef _WIN32
+    WSADATA wsaData;
+    int wsaerr = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (wsaerr != 0) {
+        std::cerr << "WSAStartup failed: " << wsaerr << "\n";
+        return 1;
+    }
+#endif
     std::string host = "127.0.0.1";
     int port = 6379;
     int i = 1;
@@ -67,5 +78,8 @@ int main(int argc, char* argv[]){
     cli.run();
 
 
+#ifdef _WIN32
+    WSACleanup();
+#endif
     return 0;
 }

@@ -13,7 +13,7 @@ Establish TCP Connection to Redis (RedisCLient)
 
 
 RedisClient::RedisClient(const std::string &host, int port) 
-    : host(host), port (port), sockfd(-1) {}
+    : host(host), port (port), sockfd(INVALID_SOCK) {}
 
 RedisClient::~RedisClient(){
     disconnect();
@@ -22,15 +22,7 @@ RedisClient::~RedisClient(){
 // RedisClient::
 
 bool RedisClient::connectToServer() {
-    #ifdef _WIN32
-        WSADATA wsaData;
-        int err = WSAStartup(MAKEWORD(2, 2), &wsaData);
-        
-        if(err != 0){
-            std::cerr << "WSAStartup failed: " << err << "\n";
-            return false;
-        }    
-    #endif
+    // Winsock initialization is handled at application startup (see main.cpp)
 
     struct addrinfo hints, *res = nullptr;
 
@@ -68,7 +60,7 @@ bool RedisClient::connectToServer() {
             continue; // try next addrinfo
         }
         #else
-        if (connect(sockfd, p->ai_addr, p->ai_addrlen) == INVALID_SOCK) {
+        if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             std::perror("connect");
             CLOSESOCK(sockfd);
             sockfd = INVALID_SOCK;
@@ -86,10 +78,6 @@ bool RedisClient::connectToServer() {
         std::cerr << "Could not connect to: " << host << ":" << port << "\n";
         return false;
     }
-
-    #ifdef _WIN32
-        WSACleanup();
-    #endif
 
     return true;
 }
