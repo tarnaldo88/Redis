@@ -24,10 +24,15 @@
 class ResponseParser{
 public:
     //Function that reads from given socket and return parsed response string
-    static std::string parseResponse(int sockfd);
+    static std::string parseResponse(int sockfd);   
 
 private:
-
+    //Redis Serialization Protocol 2
+    static std::string parseSimpleString(int sockfd);
+    static std::string parseSimpleErrors(int sockfd);
+    static std::string parseSimpleInteger(int sockfd);
+    static std::string parseBulkString(int sockfd);
+    static std::string parseArrays(int sockfd);
 };
 
 #endif
