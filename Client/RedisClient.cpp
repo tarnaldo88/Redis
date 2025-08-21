@@ -92,3 +92,13 @@ void RedisClient::disconnect(){
 int RedisClient::getSocketFd() const {
     return sockfd;
 }
+
+bool RedisClient::sendCommand(const std::string &command){
+    if(sockfd == INVALID_SOCK){
+        return false;
+    }
+
+    SSIZE_T sent = send(sockfd, command.c_str(), command.size(), 0);
+
+    return (sent == (SSIZE_T)command.size());
+}

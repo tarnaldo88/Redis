@@ -52,6 +52,12 @@ void CLI::run() {
         // }
 
         std::string command = CommandHandler::buildRESPCommand(args);
+        if(!redisClient.sendCommand(command)){
+            std::cerr << "(Error) Failed to send command \n";
+            break;
+        }
+
+        //Parse and print
         
     }
 }
