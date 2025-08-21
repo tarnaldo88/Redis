@@ -33,4 +33,5 @@ std::string CommandHandler::buildRESPCommand(const std::vector<std::string> &arg
     for(const auto &arg: args) {
         oss << "$" << arg.size() << "\r\n" << arg << "\r\n"; 
     }
+    return oss.str();
 }

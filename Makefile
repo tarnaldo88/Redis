@@ -1,6 +1,7 @@
 # Compiler
 CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17
+DEPFLAGS = -MMD -MP
 CPPFLAGS = -I. -IClient
 
 # Platform detection (Windows via MSYS2/MinGW vs Linux)
@@ -34,7 +35,7 @@ $(BUILD_DIR) $(BIN_DIR):
 # Compile each .cpp file into .o files (mirror subdirectories under build/)
 $(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(DEPFLAGS) $(CPPFLAGS) -c $< -o $@
 
 # Link the object files to create the executable
 $(TARGET): $(OBJS) | $(BIN_DIR)
@@ -50,3 +51,6 @@ rebuild: clean all
 # Run the compiled binary
 run: all
 	./$(TARGET)
+
+# Include auto-generated dependency files
+-include $(OBJS:.o=.d)
