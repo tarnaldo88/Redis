@@ -58,6 +58,7 @@ void CLI::run() {
         }
 
         //Parse and print
-        
+        std::string response = ResponseParser::parseResponse(redisClient.getSocketFd());
+        std::cout << response << "\n";
     }
 }

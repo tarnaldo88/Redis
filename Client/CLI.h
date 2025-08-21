@@ -1,6 +1,7 @@
 #ifndef CLI_H
 #define CLI_H
 #include "RedisClient.h"
+#include "ResponseParser.h"
 
 #include <string>
 #include <vector>
