@@ -6,6 +6,8 @@
     #include <ws2tcpip.h>
     #pragma comment(lib, "Ws2_32.lib")
     #define CLOSESOCK closesocket
+    #include <BaseTsd.h>
+    typedef SSIZE_T ssize_t;    
 #else
     #include <netdb.h>
     #include <sys/socket.h>

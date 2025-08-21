@@ -98,7 +98,7 @@ bool RedisClient::sendCommand(const std::string &command){
         return false;
     }
 
-    SSIZE_T sent = send(sockfd, command.c_str(), command.size(), 0);
+    ssize_t sent = send(sockfd, command.c_str(), command.size(), 0);
 
-    return (sent == (SSIZE_T)command.size());
+    return (sent == (ssize_t)command.size());
 }
