@@ -89,7 +89,7 @@ void RedisClient::disconnect(){
     }
 }
 
-int RedisClient::getSocketFd() const {
+socket_t RedisClient::getSocketFd() const {
     return sockfd;
 }
 

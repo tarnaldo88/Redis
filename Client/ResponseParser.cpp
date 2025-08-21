@@ -1,12 +1,12 @@
 #include "ResponseParser.h"
 
-static bool readChar(int sockfd, char &c) {
+static bool readChar(socket_t sockfd, char &c) {
     ssize_t r = recv(sockfd, &c, 1, 0);
     return (r == 1);
 }
 
 //Read a line of text from a socket until it encounters a carriage return
-static std::string readLine(int sockfd){
+static std::string readLine(socket_t sockfd){
     std::string line;
     char c;
     while(readChar(sockfd, c)){
@@ -17,9 +17,10 @@ static std::string readLine(int sockfd){
         }
         line.push_back(c);
     }
+    return line;
 }
 
-std::string ResponseParser::parseResponse(int sockfd){
+std::string ResponseParser::parseResponse(socket_t sockfd){
     char prefix;
     if(!readChar(sockfd, prefix)) {
         return ("(Error) No response or connection closed.");
@@ -36,27 +37,27 @@ std::string ResponseParser::parseResponse(int sockfd){
     }
 }
 
-std::string ResponseParser::parseSimpleString(int sockfd)
+std::string ResponseParser::parseSimpleString(socket_t sockfd)
 {
     return readLine(sockfd);
 }
 
-std::string ResponseParser::parseSimpleErrors(int sockfd)
+std::string ResponseParser::parseSimpleErrors(socket_t sockfd)
 {
     return std::string();
 }
 
-std::string ResponseParser::parseSimpleInteger(int sockfd)
+std::string ResponseParser::parseSimpleInteger(socket_t sockfd)
 {
     return std::string();
 }
 
-std::string ResponseParser::parseBulkString(int sockfd)
+std::string ResponseParser::parseBulkString(socket_t sockfd)
 {
     return std::string();
 }
 
-std::string ResponseParser::parseArrays(int sockfd)
+std::string ResponseParser::parseArrays(socket_t sockfd)
 {
     return std::string();
 }

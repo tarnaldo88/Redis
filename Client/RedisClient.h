@@ -36,7 +36,7 @@ class RedisClient {
 
     bool connectToServer();
     void disconnect();
-    int getSocketFd() const;
+    socket_t getSocketFd() const;
     bool sendCommand(const std::string &command);
 
     private:
