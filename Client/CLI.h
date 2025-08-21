@@ -3,6 +3,9 @@
 #include "RedisClient.h"
 
 #include <string>
+#include <vector>
+#include "CommandHandler.h"
+#include <sstream>
 //...
 
 class CLI {

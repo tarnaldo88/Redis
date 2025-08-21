@@ -43,7 +43,13 @@ void CLI::run() {
         }
 
         //split commands into tokens
-        
+        std::vector<std::string> args = CommandHandler::splitArgs(line);
+
+        if(args.empty()) continue;
+
+        for(const auto &arg : args){
+            std::cout << arg << "\n";
+        }
 
     }
 }

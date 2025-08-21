@@ -20,3 +20,7 @@ std::vector<std::string> CommandHandler::splitArgs(const std::string &input) {
 
     return tokens;
 }
+
+std::string buildRESPCommand(const std::vector<std::string> &args){
+    
+}

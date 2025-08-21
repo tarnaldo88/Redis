@@ -7,9 +7,11 @@
 
 class CommandHandler {
     public:
-
+        //split commands into tokens
         static std::vector<std::string> splitArgs(const std::string &input);
-
+        
+        //Get RESP commands from the vector args
+        static std::string buildRESPCommand(const std::vector<std::string> &args);
 
     private:
 
