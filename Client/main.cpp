@@ -80,14 +80,8 @@ int main(int argc, char* argv[]){
     }
 
     // Handle REPL & one-shot command modes
-    CLI cli(host, port);
-    if(!commandArgs.empty()){
-        //execute commands immediate
-        cli.executeCommands(commandArgs);        
-    } else {
-        //launch REPL mode
-        cli.run();
-    }
+    CLI cli(host, port);   
+    cli.run(commandArgs);    
 
 #ifdef _WIN32
     WSACleanup();

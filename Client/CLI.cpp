@@ -13,10 +13,14 @@ static std::string trim(std::string &s){
 
 CLI::CLI(const std::string &host, int port) : port(port), host(host), redisClient(host, port)  { }
 
-void CLI::run() {
+void CLI::run(const std::vector<std::string> &commandArgs) {
     if( !redisClient.connectToServer()){
         return;
     }
+
+    if(!commandArgs.empty()) {
+        executeCommands(commandArgs);
+    }    
 
     std::cout << "Connected to Redis server at " << redisClient.getSocketFd() << "\n";  
     
@@ -66,6 +70,10 @@ void CLI::executeCommands(const std::vector<std::string> &commandArgs)
     if(commandArgs.empty()) return;
 
     std::string command = CommandHandler::buildRESPCommand(commandArgs);
+
+    for(const auto &arg : commandArgs){
+            std::cout << arg << "\n";
+        }
 
     if(!redisClient.sendCommand(command)){
         std::cerr << "(Error) Failed to send command. \n";
