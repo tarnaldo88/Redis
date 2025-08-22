@@ -1,7 +1,7 @@
-Redis Client (C++17)
+# **Redis Client (C++17)**
 A lightweight, cross-platform Redis client skeleton in C++ that connects to a Redis server, formats commands using RESP, and parses responses.
 
-Features (current)
+## **Features (current)**
 Connects to a Redis server over TCP.
 Builds commands in RESP format from tokens (CommandHandler).
 Parses RESP replies: Simple Strings, Errors, Integers, Bulk Strings, Arrays (ResponseParser).
@@ -11,12 +11,13 @@ Linux: POSIX sockets
 Minimal CLI scaffold (connection and groundwork in place for REPL/one-shot).
 Note: The interactive REPL is scaffolded and will be expanded (parsing input, sending commands, printing parsed replies).
 
-Technologies
+## **Technologies**
 C++17
 Sockets: Winsock2 (Windows) / POSIX (Linux)
 Build: GNU Make (MinGW/MSYS2 on Windows, GNU Make + g++ on Linux)
 Parsing helpers: <regex>, <sstream>
-Project Structure
+
+## **Project Structure**
 Client/
 main.cpp
  — entry point; initializes Winsock on Windows and runs CLI
@@ -28,7 +29,8 @@ Makefile
  — portable build for Linux and Windows (MinGW/MSYS2)
 README.md
  — this file
-Build and Run
+
+## **Build and Run**
 Prerequisites:
 
 Running Redis server (default: 127.0.0.1:6379)
@@ -49,14 +51,17 @@ Build:
 make
 Run:
 ./bin/my_redis_cli -h 127.0.0.1 -p 6379
-Notes:
+
+### **Notes**
 
 On Windows, linking uses -lws2_32. On Linux, no extra socket libs are required.
 The build outputs to bin/, objects to build/.
-Usage
+
+## **Usage**
 Current behavior: attempts to connect to the specified host/port and prints a confirmation on success.
 Next step: enable interactive REPL to read commands (e.g., SET key val, GET key), send them via RESP, and print parsed replies.
-Troubleshooting
+
+## **Troubleshooting**
 Windows “connect() failed” with a Winsock error:
 Verify Redis is running and not blocked by firewall.
 Ensure you ran the program in an MSYS2 MinGW shell (not plain CMD/PowerShell for make).
@@ -64,7 +69,8 @@ Linux “Connection refused”:
 Ensure redis-server is running and accepting connections on the given port.
 Link errors on Windows:
 Confirm you’re using MinGW g++ and the build includes -lws2_32 (the Makefile handles this automatically).
-Roadmap
+
+## **Roadmap**
 Implement CLI REPL (readline loop, history, help/quit).
 Wire CommandHandler and ResponseParser to CLI for end-to-end command execution.
 Add one-shot command mode (parse args into a single command).
