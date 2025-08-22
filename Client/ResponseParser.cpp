@@ -72,10 +72,33 @@ std::string ResponseParser::parseBulkString(socket_t sockfd)
         totalRead += r;
     }
 
+    //Consume trailing CR
+    char temp;
+    //read the 1st CR
+    readChar(sockfd, temp);
+    //read the LF
+    readChar(sockfd, temp);
+
     return bulk;
 }
 
 std::string ResponseParser::parseArrays(socket_t sockfd)
 {
-    return std::string();
+    std::string countStr = readLine(sockfd);
+    int count = std::stoi(countStr);
+
+    if(count == -1) {
+        return "(nil)";
+    }
+
+    std::ostringstream oss;
+
+    for(int i = 0; i < count; i++){
+        oss << parseResponse(sockfd);
+        if(i != count - 1){
+            oss << '\n';
+        }
+    }
+
+    return oss.str();
 }
