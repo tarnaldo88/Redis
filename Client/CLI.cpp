@@ -32,7 +32,7 @@ void CLI::run() {
         line = trim(line);
 
         if(line.empty()) continue;
-        if(line == "quit") {
+        if(line == "quit" || line == "exit") {
             std::cout << "Exiting. \n";
             break;
         }

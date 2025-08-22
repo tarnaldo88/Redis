@@ -44,7 +44,7 @@ std::string ResponseParser::parseSimpleString(socket_t sockfd)
 
 std::string ResponseParser::parseSimpleErrors(socket_t sockfd)
 {
-    return std::string();
+    return "(Error) " + readLine(sockfd);
 }
 
 std::string ResponseParser::parseSimpleInteger(socket_t sockfd)
