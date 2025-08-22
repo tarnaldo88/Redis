@@ -19,6 +19,7 @@ class CLI {
     int port;
     std::string host;    
     RedisClient redisClient;
+    void parseAndPrint();
     
 };
 

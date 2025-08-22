@@ -59,9 +59,7 @@ void CLI::run(const std::vector<std::string> &commandArgs) {
             break;
         }
 
-        //Parse and print
-        std::string response = ResponseParser::parseResponse(redisClient.getSocketFd());
-        std::cout << response << "\n";
+        parseAndPrint();
     }
 }
 
@@ -80,6 +78,11 @@ void CLI::executeCommands(const std::vector<std::string> &commandArgs)
         return;
     }
 
+    parseAndPrint();
+}
+
+void CLI::parseAndPrint()
+{
     //parse and print response
     std::string response = ResponseParser::parseResponse(redisClient.getSocketFd());
     std::cout << response << "\n";
