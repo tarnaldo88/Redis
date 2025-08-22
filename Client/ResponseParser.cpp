@@ -49,12 +49,30 @@ std::string ResponseParser::parseSimpleErrors(socket_t sockfd)
 
 std::string ResponseParser::parseSimpleInteger(socket_t sockfd)
 {
-    return std::string();
+    return readLine(sockfd);
 }
 
 std::string ResponseParser::parseBulkString(socket_t sockfd)
 {
-    return std::string();
+    std::string lenStr = readLine(sockfd);
+    int length = std::stoi(lenStr);
+
+    if(length == -1) return "(nil)";
+
+    std::string bulk;
+    bulk.resize(length);
+    int totalRead = 0;
+
+    while(totalRead < length){
+        ssize_t r = recv(sockfd, &bulk[totalRead], length - totalRead, 0);
+
+        if(r <= 0) {
+            return "(Error) Incomplete bulk data";
+        }
+        totalRead += r;
+    }
+
+    return bulk;
 }
 
 std::string ResponseParser::parseArrays(socket_t sockfd)
