@@ -11,16 +11,14 @@ static std::string trim(std::string &s){
     return s.substr(start, end - start + 1);
 }
 
-CLI::CLI(const std::string &host, int port) : redisClient(host, port) { }
+CLI::CLI(const std::string &host, int port) : port(port), host(host), redisClient(host, port)  { }
 
 void CLI::run() {
     if( !redisClient.connectToServer()){
         return;
     }
 
-    std::cout << "Connected to Redis server at " << redisClient.getSocketFd() << "\n";   
-    std::string host = "127.0.0.1";
-    int port = 6379;
+    std::cout << "Connected to Redis server at " << redisClient.getSocketFd() << "\n";  
     
     while(true) {
         std::cout << host <<  ":" << port << "> ";
@@ -61,4 +59,9 @@ void CLI::run() {
         std::string response = ResponseParser::parseResponse(redisClient.getSocketFd());
         std::cout << response << "\n";
     }
+}
+
+void CLI::executeCommands(const std::vector<std::string> &commandArgs)
+{
+    
 }
