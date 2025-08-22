@@ -63,5 +63,16 @@ void CLI::run() {
 
 void CLI::executeCommands(const std::vector<std::string> &commandArgs)
 {
-    
+    if(commandArgs.empty()) return;
+
+    std::string command = CommandHandler::buildRESPCommand(commandArgs);
+
+    if(!redisClient.sendCommand(command)){
+        std::cerr << "(Error) Failed to send command. \n";
+        return;
+    }
+
+    //parse and print response
+    std::string response = ResponseParser::parseResponse(redisClient.getSocketFd());
+    std::cout << response << "\n";
 }
