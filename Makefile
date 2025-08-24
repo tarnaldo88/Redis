@@ -8,15 +8,17 @@ CPPFLAGS = -I. -IClient
 ifeq ($(OS),Windows_NT)
   EXE_EXT := .exe
   PLATFORM_LIBS := -lws2_32
+  PLATFORM := windows
 else
   EXE_EXT :=
   PLATFORM_LIBS :=
+  PLATFORM := linux
 endif
 
 # Directories
 SRC_DIR = Client
-BUILD_DIR = build
-BIN_DIR = bin
+BUILD_DIR = build/$(PLATFORM)
+BIN_DIR = bin/$(PLATFORM)
 
 # Find all .cpp files in project (exclude root CLI.cpp to avoid duplicate with Client/CLI.cpp)
 SRCS := $(filter-out CLI.cpp,$(wildcard *.cpp)) $(wildcard $(SRC_DIR)/*.cpp)
@@ -44,6 +46,10 @@ $(TARGET): $(OBJS) | $(BIN_DIR)
 # Clean build artifacts
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
+
+# Remove all build artifacts for all platforms
+distclean:
+	rm -rf build bin
 
 # Rebuild from scratch
 rebuild: clean all
